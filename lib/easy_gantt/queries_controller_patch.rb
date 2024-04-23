@@ -1,27 +1,26 @@
 module EasyGantt
   module QueriesControllerPatch
 
-    def self.prepended(base)
-      base.prepend(InstanceMethods)
+    def self.include(base)
+      base.send(:include, InstanceMethods)
+      base.class_eval do
+        alias_method :query_class_without_gannt, :query_class
+        alias_method :query_class, :query_class_with_gannt
+      end
     end
 
     module InstanceMethods
-
       # Redmine return only direct sublasses but
       # Gantt query inherit from IssueQuery
-      def query_class
-        case params[:type]
-        when 'EasyGantt::EasyGanttIssueQuery'
-          EasyGantt::EasyGanttIssueQuery
-        else
-          super
-        end
+      def query_class_with_gannt
+        return EasyGantt::EasyGanttIssueQuery if params[:type] == 'EasyGantt::EasyGanttIssueQuery'
+        query_class_without_gannt
       end
-
     end
-
   end
 end
 
-QueriesController.prepend EasyGantt::QueriesControllerPatch
 
+unless QueriesController.included_modules.include?(EasyGantt::QueriesControllerPatch)
+  QueriesController.send(:include, EasyGantt::QueriesControllerPatch)
+end
