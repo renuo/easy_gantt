@@ -1,11 +1,9 @@
 <%
   heads_for_wiki_formatter
-
-  main_css = 'generated/easy_gantt'
 %>
 
 <%= content_for :header_tags do %>
-  <%= easy_gantt_include_css(main_css, media: 'all') %>
+  <%= easy_gantt_include_css('easy_gantt', media: 'all') %>
   <%= easy_gantt_include_css('modal_editor') %>
     <%= easy_gantt_include_js(
             'utils',

@@ -34,6 +34,7 @@ module EasyGanttHelper
     options[:class] << ' button' unless options.delete(:no_button)
     if (icon = options.delete(:icon))
       options[:class] << " icon #{icon}"
+      text = sprite_icon(icon.sub("icon-", ""), text)
     end
     link_to(text, options[:url] || 'javascript:void(0)', options)
   end

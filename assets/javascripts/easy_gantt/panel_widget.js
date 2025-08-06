@@ -126,7 +126,7 @@ ysy.main.extender(ysy.view.Widget, ysy.view.AllButtons, {
         } else {
           label = button_labels.button_save;
         }
-        this.$target.children().html(label);
+        this.$target.children("icon-label").html(label);
       },
       //isHidden:function(){return ysy.settings.sample.active;},
       isDisabled: function () {

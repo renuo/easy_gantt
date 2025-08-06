@@ -26,10 +26,6 @@ module EasyGantt
       Redmine::Plugin.installed?(:easy_gantt_pro)
     end
   
-    def self.easy_gantt_resources?
-      Redmine::Plugin.installed?(:easy_gantt_resources)
-    end
-  
     def self.easy_baseline?
       Redmine::Plugin.installed?(:easy_baseline)
     end

@@ -13,6 +13,7 @@ Redmine::MenuManager.map :top_menu do |menu|
   menu.push(:easy_gantt, { controller: 'easy_gantt', action: 'index', set_filter: 0 },
     caption: :label_easy_gantt,
     after: :documents,
+    icon: 'stats',
     html: { class: 'icon icon-stats' },
     if: proc { User.current.allowed_to_globally?(:view_global_easy_gantt) })
 end
@@ -28,36 +29,35 @@ Redmine::MenuManager.map :easy_gantt_tools do |menu|
   menu.push(:back, 'javascript:void(0)',
             param: :project_id,
             caption: :button_back,
-            html: { icon: 'icon-back' })
+            icon: 'chevrons-left',
+            html: { icon: 'icon-chevrons-left' })
 
   menu.push(:task_control, 'javascript:void(0)',
             param: :project_id,
             caption: :button_edit,
+            icon: 'edit',
             html: { icon: 'icon-edit' })
 
   menu.push(:add_task, 'javascript:void(0)',
             param: :project_id,
             caption: :label_new,
+            icon: 'add',
             html: { trial: true, icon: 'icon-add' },
             if: proc { |p| p.present? })
 
   menu.push(:critical, 'javascript:void(0)',
             param: :project_id,
             caption: :'easy_gantt.button.critical_path',
+            icon: 'summary',
             html: { trial: true, icon: 'icon-summary' },
             if: proc { |p| p.present? })
 
   menu.push(:baseline, 'javascript:void(0)',
             param: :project_id,
             caption: :'easy_gantt.button.create_baseline',
+            icon: 'projects',
             html: { trial: true, icon: 'icon-projects icon-project' },
             if: proc { |p| p.present? })
-
-  menu.push(:resource, proc { |project| defined?(EasyUserAllocations) ? { controller: 'user_allocation_gantt', project_id: project } : nil },
-            param: :project_id,
-            caption: :'easy_gantt.button.resource_management',
-            html: { trial: true, icon: 'icon-stats' },
-            if: proc { |p| p.present? && Redmine::Plugin.installed?(:easy_gantt_resources) })
 
 end
 
@@ -67,42 +67,30 @@ end
       # View project level
       pmap.permission(:view_easy_gantt, {
         easy_gantt: [:index, :issues, :projects],
-        easy_gantt_pro: [:lowest_progress_tasks, :cashflow_data],
-        easy_gantt_resources: [:index, :project_data, :users_sums, :projects_sums, :allocated_issues],
-        easy_resource_limits: [:index]
+        easy_gantt_pro: [:lowest_progress_tasks, :cashflow_data]
       }, read: true)
 
       # Edit project level
       pmap.permission(:edit_easy_gantt, {
-        easy_gantt: [:change_issue_relation_delay, :reschedule_project],
-        easy_gantt_resources: [:bulk_update_or_create],
-        easy_resource_limits: [:new, :create, :edit, :update, :destroy]
+        easy_gantt: [:change_issue_relation_delay, :reschedule_project]
       }, require: :member)
 
       # View global level
       pmap.permission(:view_global_easy_gantt, {
         easy_gantt: [:index, :issues, :projects, :project_issues],
-        easy_gantt_pro: [:lowest_progress_tasks, :cashflow_data],
-        easy_gantt_resources: [:index, :project_data, :global_data, :projects_sums, :allocated_issues],
-        easy_resource_limits: [:index]
+        easy_gantt_pro: [:lowest_progress_tasks, :cashflow_data]
       }, global: true, read: true)
 
       # Edit global level
       pmap.permission(:edit_global_easy_gantt, {
-        easy_gantt_resources: [:bulk_update_or_create],
-        easy_resource_limits: [:new, :create, :edit, :update, :destroy]
       }, global: true, require: :loggedin)
 
       # View personal level
       # pmap.permission(:view_personal_easy_gantt, {
-      #   easy_gantt_resources: [:global_data],
-      #   easy_resource_limits: [:index]
       # }, global: true, read: true)
 
       # Edit personal level
       pmap.permission(:edit_personal_easy_gantt, {
-        easy_gantt_resources: [:bulk_update_or_create],
-        easy_resource_limits: [:new, :create, :edit, :update, :destroy]
       }, global: true, require: :loggedin)
     end
 

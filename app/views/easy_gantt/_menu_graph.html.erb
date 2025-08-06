@@ -3,12 +3,12 @@
     show_menu_items = true
   end
 
-  zooms = { 'day' => 'calendar-day', 'week' => 'calendar-week', 'month' => 'calendar-month', 'quarter' => 'calendar-quarter', 'year' => 'calendar-year' }
+  zooms = ['day', 'week', 'month', 'quarter', 'year']
 %>
 <span id="close_all_something">
-  <a id="button_close_all_projects" title="<%= l(:close_all, scope: [:easy_gantt, :button])+' '+l(:label_project_plural) %>" class="gantt-button-symbol icon-folder" href="javascript:void(0)"></a>
-  <a id="button_close_all_milestones" title="<%= l(:close_all, scope: [:easy_gantt, :button])+' '+l(:label_version_plural) %>" class="gantt-button-symbol gantt-icon-milestone" href="javascript:void(0)"></a>
-  <a id="button_close_all_parent_issues" title="<%= l(:close_all, scope: [:easy_gantt, :button])+' '+l(:label_parent_issue_plural) %>" class="gantt-button-symbol gantt-icon-parent-issue" href="javascript:void(0)"></a>
+  <a id="button_close_all_projects" title="<%= l(:close_all, scope: [:easy_gantt, :button])+' '+l(:label_project_plural) %>" class="gantt-button-symbol icon-folder" href="javascript:void(0)"><%= sprite_icon('folder', '') %></a>
+  <a id="button_close_all_milestones" title="<%= l(:close_all, scope: [:easy_gantt, :button])+' '+l(:label_version_plural) %>" class="gantt-button-symbol gantt-icon-milestone" href="javascript:void(0)"><%= sprite_icon('milestone', '') %></a>
+  <a id="button_close_all_parent_issues" title="<%= l(:close_all, scope: [:easy_gantt, :button])+' '+l(:label_parent_issue_plural) %>" class="gantt-button-symbol gantt-icon-parent-issue" href="javascript:void(0)"><%= sprite_icon('parent', '') %></a>
 </span>
 <div id="supertop_panel" class="gantt-supertop-panel easy-gantt__supertop-panel clear"></div>
 <div id="easy_gantt_menu" class="easy-gantt__menu clear">
@@ -17,10 +17,10 @@
       <%= easy_gantt_js_button l(:button_test), id: 'button_test' %>
     <% end %>
 
-    <%= easy_gantt_js_button('&#8203;'.html_safe, id: 'button_jump_today', title: l(:jump_today, scope: [:easy_gantt, :title]), icon: 'icon-calendar') %>
+    <%= easy_gantt_js_button("", id: 'button_jump_today', title: l(:jump_today, scope: [:easy_gantt, :title]), icon: 'icon-list') %>
 
-    <% zooms.each do |name, icon| %>
-      <%= easy_gantt_js_button(:"#{name}_zoom", id: "button_#{name}_zoom", icon: "icon-#{icon}") %>
+    <% zooms.each do |name| %>
+      <%= easy_gantt_js_button(:"#{name}_zoom", id: "button_#{name}_zoom", icon: "icon-zoom-in") %>
     <% end %>
   </div>
 
@@ -33,7 +33,7 @@
           no_button: true
       }) %>
       <div class="easy-gantt__menu-group easy-gantt__menu-group--tooltiped easy-gantt__menu-tools">
-        <a href="javascript:void(0)" class="button gantt-menu-button icon icon-settings easy-gantt__menu-tools-button"><%= l(:tool_panel, :scope => [:easy_gantt, :button]) %></a>
+        <a href="javascript:void(0)" class="button gantt-menu-button icon icon-settings easy-gantt__menu-tools-button"><%= sprite_icon('settings', l(:tool_panel, :scope => [:easy_gantt, :button])) %></a>
         <ul id="easy_gantt_tool_panel" class="easy-gantt__menu-item">
           <% menu_items_for(:easy_gantt_tools, @project) do |node| %>
             <li>
@@ -57,8 +57,9 @@
       <%= easy_gantt_js_button(l(:button_save), {
           url: 'javascript:void(0)',
           id: 'button_save',
+          icon: 'icon-save',
           no_button: true,
-          class: 'button-positive button-1 icon icon-save'
+          class: 'button-positive button-1'
       }) %>
     <% end %>
   </div>

@@ -18,6 +18,7 @@ class EasyGanttController < ApplicationController
   helper :sort
   include SortHelper
   helper :custom_fields
+  helper :icons
 
   def index
     retrieve_query

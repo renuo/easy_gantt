@@ -4,9 +4,9 @@ Redmine::Plugin.register :easy_gantt do
   url 'https://www.easysoftware.com'
   author_url 'https://www.easysoftware.com'
   description 'Cool gantt for redmine'
-  version '2.0'
+  version '3.0'
 
-  requires_redmine version_or_higher: '5.0'
+  requires_redmine version_or_higher: '6.0.0'
 
   settings partial: 'settings/easy_gantt', default: {
     'critical_path' => 'last',
